@@ -1,0 +1,59 @@
+{% extends 'home.html.twig' %}
+
+{% block title %}Compte{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+
+ {% block body %}
+
+  <h1 style="text-align: center;">Informations</h1>
+
+  {# <div style="width:40%; margin: auto; padding: 20px;">
+  {{ dump(app.user) }}
+  </div> #}
+  {% for message in app.flashes('compte_edit_success')  %}
+    <div class="container alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  {% endfor %}
+
+  {# {{ dump(app.user )}} #}
+
+  <table class="container table table-dark table-striped">
+    <thead>
+      <tr>
+      
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Téléphone</th>
+        <th scope="col">Date de naissance</th>
+        <th scope="col">Email</th>
+        <th scope="col" class="centrer" style="text-align: center;">Action</th> 
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr>
+        <th scope="row">{{ app.user.nom }}</th>  
+        
+        <td>{{ app.user.prenom }}</td> 
+        <td>{{ app.user.telephone }}</td>
+        <td>{{ app.user.datedenaissance|date("Y-m-d") }}</td> 
+        <td>{{ app.user.email }}</td>
+
+        <td style="text-align: center;">
+        <a href="{{ path('edit-compte', {id: app.user.id})}}" class="btn btn-warning">Modifier</a>       
+        <a href="{{ path('delete-compte', {id : app.user.id}) }}" class="btn btn-danger">Supprimer</a>
+        </td>     
+      </tr>
+    </tbody>
+  </table>
+
+
+  {% endblock %}

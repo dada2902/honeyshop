@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="assets/css/formulaire_inscription.css">
+    {% endblock %}
+
+{% block body %}
+{% for flashError in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+
+
+
+<div class="displayflex">
+    <div class="logo">
+        <a href="{{ path('index')}}"><img class="logo_img" src="assets/img/logo.jpeg" alt=""></a>
+    </div>
+    <div class="formulaire-inscription">
+        <div class="form_inscription">
+            {{ form_start(registrationForm) }}
+                <h1 class="inscription">Inscription</h1>
+                <div class="container_inscription">
+                    {{ form_row(registrationForm.nom, {label: 'Nom*'} ) }}
+                    {{ form_row(registrationForm.prenom, {label: 'Prénom*'}) }}
+                    {{ form_row(registrationForm.telephone, {label: 'Téléphone'}) }}
+                    {{ form_row(registrationForm.datedenaissance, {label: 'Date de naissance'}) }}
+                    {{ form_row(registrationForm.email, {label: 'Adresse Email*'}) }}
+                    {{ form_row(registrationForm.password, {label: 'Mot de passe*'}) }}    
+                    <label class="label_inscription"><b>Confirmation Mot de passe*</b></label>
+                    <input class="label_inscription" type="password" placeholder="Entrez le mot de passe à nouveau" name="mdp" required>
+                    <button  type="submit" class="button_inscription">Inscription</button>
+                    <div class="input_condition">
+                        <input  class="input_con" type="checkbox" name="condition_utilisation">
+                        <label class="input_con">j'accepte les conditions d'utilisation.</label>
+                        <label class="input_con">Vous avez déjà un compte ? <a href="{{path('app_login')}}"> Identifiez-vous</a></label>
+                    </div>
+                </div>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

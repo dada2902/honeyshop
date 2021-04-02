@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Liste des produits {% endblock %}
+
+  
+{% block body %}
+     <h1> Listes des produits </h1>
+
+      {% for message in app.flashes('product_add_success')%}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+           {{ message }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+   {% endfor %}
+
+   {% for message in app.flashes('product_edit_success') %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+         {{ message }}
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+       </button>
+      </div>
+   {% endfor %}
+
+   {% for message in app.flashes('product_delete_success') %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+         {{ message }}
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+       </button>
+      </div>
+   {% endfor %}
+
+
+  <table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Titre</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Catégorie</th>
+      <th scope="col">Images</th>
+      <th scope="col">Déscription</th>
+      <th scope="col" class="centrer">Action</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+      {% for product in products %} 
+    <tr>
+        <th scope="row">{{ product.id }}</th>
+            <td>{{ product.nomDeProduit }}</td> 
+            <td>{{ product.prix }}€</td>
+            <td>{{ product.category.nom }}</td> 
+
+             {% for image in product.images %} 
+           <td>
+
+             <img src="{{'uploads/' ~ image.titre }}" alt="Images" width="90">
+
+             <a href="{{ path('product_delete_image', {'id': image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id)}}"></a>
+          </td>
+           {% endfor %}  
+
+            <td>{{ product.description }}</td>
+            <td>
+            <a href="{{ path('edit-product', {id : product.id}) }}" class="btn btn-warning">Modifier</a>
+            <br>
+            <br>
+            <a href="{{ path('delete-product', {id : product.id}) }}" class="btn btn-danger">Supprimer</a></td>    
+    </tr>
+     {% endfor %} 
+  </tbody>
+  </table>
+     
+{% endblock %}

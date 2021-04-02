@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Site ecommerce"><!--description de la page-->
+    <meta name="keywords" content="miel"> <!--Mot clef de la page-->
+    <meta name="author" content="Amine, Lylia, Patrick"><!--Auteur du site-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/icon.png" type="image/png" sizes="16x16">
+
+
+    <title>{% block title %}LiliRuche{% endblock %}</title>
+
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/menu.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="assets/css/nav.css">
+    <link rel="stylesheet" href="assets/css/search.css">
+    <link rel="stylesheet" href="assets/css/footers.css">
+    <link rel="stylesheet" href="assets/css/scroll.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/lien_decos.css">
+    <link rel="stylesheet" href="assets/css/contact.css">
+    <link rel="stylesheet" href="assets/css/cgvml.css">
+    <link rel="stylesheet" href="assets/css/qui_sommesnous.css">
+    <link rel="stylesheet" href="assets/css/paiment.css"> 
+    <link rel="stylesheet" href="assets/css/article.css">
+    <link rel="stylesheet" href="assets/css/articles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&amp;display=swap" rel="stylesheet">
+    {% endblock %}
+
+  </head>
+  <body>
+
+  {# ----------------------------HEADER----------------------------- #}
+
+    <header class="bee">
+      <nav class="navbar">
+        <button id="myBtn_menu"><i class="fas fa-bars"></i></button>
+  
+        <!-- The Modal Menu -->
+        <div id="myModal_menu" class="modal_menu">
+          <div class="modal-content_menu">
+            <span class="close_menu">&times;</span>
+            <ul class="nav-link_menu">
+
+                {% if is_granted('ROLE_ADMIN') %} 
+              <li><a href="{{ path('affichage-product')}}">Modif/Suppression produits</a></li>
+              <li><a href="{{ path('add-product')}}">Ajout de produits</a></li>
+              <li><a href="{{ path('affichage-category')}}">Modif/Suppression catégories</a></li>
+              <li><a href="{{ path('add-category')}}">Ajout de catégories</a></li>
+              <li><a href="{{ path('affichage-user')}}">Gestion des utilisateurs</a></li> 
+              <li><a href="{{ path('affichage-contact')}}">Messages clients</a></li> 
+                {% else %} 
+              <li><a href="{{ path('miel') }}">Miels</a></li>
+              <li><a href="{{ path('epiceriefine') }}">Epicerie fine</a></li>
+              <li><a href="{{ path('bienetre') }}">Bien-être</a></li>
+              <li><a href="{{ path('coffretscadeaux') }}">Coffrets Cadeaux</a></li>
+              <li><a href="{{ path('quisommesnous')}}">Qui-sommes nous?</a></li>
+              <li><a href="{{ path('livraison')}}">Livraison et retours</a></li>
+              <li><a href="{{ path('paiment')}}">Paiment sécurisé</a></li>
+              <li><a href="{{ path('cgv')}}">Mentions légales et CGV</a></li>
+              <li><a href="{{ path('add-contact')}}">Contact</a></li>             
+               {% endif %} 
+            </ul>
+          </div>
+        </div>
+
+        <div class="logo">
+          <a href="{{ path('index')}}"><img id="logo" src="assets/img/logo.jpeg" alt="logoliliruche"></a>
+          <h4><a class="web_name" href="{{ path('index')}}">HoneyShop</a></h4>
+        </div>
+
+        <div class="panier_search">
+
+          {# <button id="myBtn_search"><i class="fas fa-search"></i></button>
+          <div id="myModal_search" class="modal_search">
+            <div class="modal-content_search">
+              <span class="close_search">&times;</span>
+            
+              <form action="#">
+                <input type="search" id="search_bar">
+              </form>
+              
+            </div>
+          </div> #}
+    
+          <button id="myBtn_panier"><i class="fas fa-shopping-cart"></i></button>    
+          <div id="myModal_panier" class="modal_panier">
+            <div class="modal-content_panier">
+              <span class="close_panier">&times;</span>
+              <ul class="nav-link_panier">
+                <li><a href="{{ path('cart_index') }}">Commandes</a></li>
+                <li><a href="#">Valider</a></li>                   
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div>
+        <button id="scrollToTopBtn"><i class="fab fa-airbnb"></i></button>
+    </div>
+    </header>
+     {# <div class="image">
+    </div> #}
+    <div class="div_deco" >
+      <ul class="deco">
+        {% if app.user %} 
+        <li><a  class="connecter"><strong>Bonjour !</strong> {{ app.user.nom }}</a></li>
+        <li><a href="{{ path('compte')}}">Compte</a></li>
+        <li><a href="{{ path('app_logout')}}">Déconnexion</a></li>
+        {% else %} 
+        <li><a href="{{ path('app_login')}}">Connexion</a></li>
+        <li><a href="{{ path('app_register')}}">Créer un compte?</a></li>
+        {% endif %} 
+
+        {% for message in app.flashes('compte_delete_success')  %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {% endfor %}
+
+     
+      </ul>
+          {% for message in app.flashes('panier_add_success')  %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {% endfor %}
+
+         {% for message in app.flashes('panier_remove_success')  %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {% endfor %}
+
+        {% for message in app.flashes('message_success')  %}
+          <div class="container alert alert-success alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {% endfor %}
+
+         {% for message in app.flashes('compte_création_success')  %}
+          <div class="container alert alert-success alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        {% endfor %}
+    </div>

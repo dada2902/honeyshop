@@ -1,0 +1,32 @@
+{% extends 'home.html.twig' %}
+
+{% block title %}Détaits{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card mt-4">
+    {% for image in product.images %} 
+        <img style="width: 25rem;" src="{{'uploads/' ~ image.titre }}" alt="{{ product.nomDeProduit }}">
+    {% endfor %}  
+
+        <div class="card-body">
+            <h3 class="card-title">{{ product.nomDeProduit }}</h3>
+            <h4>{{ product.prix ~ ' €'}}</h4>
+            <p class="card-text">{{ product.description }}</p>
+            {# <p class="card-text">{{ product.category.nom }}</p> #}
+
+            {# <label for="tentacles"></label>
+            <input type="number" id="tentacles" name="tentacles"
+            min="1" max="100"> #}
+            
+            <p class="card-text">Categorie: {{ product.category.nom }}</p>
+             <a class="btn btn-warning" href="{{ path('cart_add', {'id': product.id})}}"><i style="color: white; font-size:25px;" class="fas fa-cart-plus"></i></a>
+
+            
+            
+
+        </div>
+    </div>
+</div>   
+
+{% endblock %}
